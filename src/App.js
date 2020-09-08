@@ -17,9 +17,15 @@ const recorder = new BatchRecorder({
 });
 
 const zipkinTracer = new ZipkinJavascriptOpentracing({
-  serviceName: "My Service",
+  serviceName: "Zipkin Tracer",
   recorder,
   kind: "client"
+});
+
+const customTracer = new CustomTracer({
+  url: "http://localhost:9411/api/v1/spans",
+  interval: 100,
+  serviceName: "Custom Tracer"
 });
 
 const onClickOfZipkinTracer = async () => {
@@ -34,11 +40,6 @@ const onClickOfZipkinTracer = async () => {
 }
 
 const onClickOfCustomTracer = async () => {
-  const customTracer = new CustomTracer({
-    url: "http://localhost:9411/api/v1/spans",
-    interval: 100,
-    serviceName: "Custom Tracer"
-  });
   const span = customTracer.startSpan("CustomTracerSpan");
   span.log("Logging in Custom tracer");
   span.log("Logging again in Custom tracer");
